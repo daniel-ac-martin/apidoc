@@ -5,8 +5,8 @@ files.
 
 ## Rationale
 
-API documention matters. The quality of a software library's documentation has a
-great effect on the speed at which a prspective programmer can start using it,
+API documentation matters. The quality of a software library's documentation has a
+great effect on the speed at which a prospective programmer can start using it,
 and that speed greatly affects whether the library will be used at all.
 
 At present there are two main approaches to producing API documentation. The
@@ -24,7 +24,7 @@ to update the documentation.
 
 In the case of in-line documentation, there is the ugly situation of having two
 separate syntaxes mixed in a single file. The rationale is that the programmer
-should update the documention at the same time he changes the source code but
+should update the documentation at the same time he changes the source code but
 again, there is no guarantee of this. The benefit this offers over the first
 approach is that the API is at least strictly defined, though it may still
 become outdated.
@@ -45,7 +45,7 @@ on the library itself are very different in nature from API documentation.
 Instead, I propose an alternative. Rather than loosely defining APIs in the main
 documentation or strictly defining them in a second syntax in our source code,
 we can maintain a set of API documentation files adjacent to our source code
-files and structly define our API in those. e.g.
+files and strictly define our API in those. e.g.
 
 	project/src/some_file.php  # Some source code file
 	project/src/some_file.xml  # The strict specification of the API along with
@@ -64,7 +64,7 @@ This approach has the following advantages:
 	1. The API documentation can use its own strictly defined syntax ensuring
 	   that the specification is valid.
 	2. Source code syntax and documentation syntax are no longer mixed in the
-	   same files. Source code can be beautiful and consise again with comments 
+	   same files. Source code can be beautiful and concise again with comments 
 	   that are actually helpful.
 	3. Conformance with the documentation can be tested for in the unit tests.
 	   (Most general purpose programming languages have libraries for reading
@@ -87,9 +87,9 @@ The main requirements are:
 	2. xmllint (libxml)
 	3. xsltproc (libxml)
 
-It compiles the source documention to another documentation format so that it
+It compiles the source documentation to another documentation format so that it
 can be incorporated into the project's main documentation. At the time of
-writing the only format supported is the docbook format used by PhD (which is
+writing the only format supported is the Docbook format used by PhD (which is
 what is used to generate php.net).
 
 ## Installation
