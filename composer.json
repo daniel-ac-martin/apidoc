@@ -3,7 +3,7 @@
 	"type": "project",
 	"description": "A system for creating API reference documentation.",
 	"keywords": ["apidoc", "api-doc", "API", "documentation", "doc", "docs", "generator"],
-	"homepage": "http://github.org",
+	"homepage": "https://github.com/daniel-ac-martin/apidoc",
 	"license": "MIT",
 	"authors": [
 		{
