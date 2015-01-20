@@ -24,8 +24,8 @@ OUTPUT=""
 show_help() {
 cat << EOF
 Usage: ${0##*/} [-h] [-i INPUT_DIR] [-f FILTER] [-t TEMPLATE] [-o OUTPUT_DIR]
-Do stuff with FILE and write the result to standard output. With no FILE
-or when FILE is -, read standard input.
+Read all files from INPUT_DIR that match FILTER and process them according to
+TEMPLATE and place the results in OUTPUT_DIR.
 
     -h             display this help and exit
     -c FILE        use FILE as XML configuration file, default: ${CONFIG_CANDIDATES}
