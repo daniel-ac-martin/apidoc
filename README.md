@@ -29,8 +29,8 @@ again, there is no guarantee of this. The benefit this offers over the first
 approach is that the API is at least strictly defined, though it may still
 become outdated.
 
-Intermingling API documentation generally causes at least one of the following
-problems:
+Intermingling API documentation with source code generally causes at least one
+of the following problems:
 
 	1. The source code becomes much harder to read as considerable screen space
 	   is given over to the documentation comments.
@@ -39,7 +39,7 @@ problems:
 	   for hardly documenting at all.
 
 Additionally, in-line documentation can encourage a lack of proper traditional
-commenting or source code. - Comments that are useful to the programmer working
+commenting of source code. - Comments that are useful to the programmer working
 on the library itself are very different in nature from API documentation.
 
 Instead, I propose an alternative. Rather than loosely defining APIs in the main
@@ -76,7 +76,7 @@ This approach has the following advantages:
 This project is the initial implementation of the idea. I am using it to
 document a library I have written in PHP. (Though the system should work just as
 well for many other languages.) It works well for my purposes but I should
-stress that it has been hacked together using mainly XSLT and bash. i.e. It
+stress that it has been hacked together using mainly XSLT and GNU Bash. i.e. It
 is not the most elegant implementation imaginable. I suspect it will only run on
 GNU/Linux systems, though it might be possible to use it on other *nix systems
 and Cygwin environments.
