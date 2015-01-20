@@ -10,7 +10,7 @@ great effect on the speed at which a prospective programmer can start using it,
 and that speed greatly affects whether the library will be used at all.
 
 At present there are two main approaches to producing API documentation. The
-first is two simply write it manually as you would the rest of your project's
+first is to simply write it manually as you would the rest of your project's
 documentation. The other is to insert specially formatted comments directly into
 your project's source and to generate documentation from this. (Examples include
 Doxygen, javadoc and PHPDocumentor.) In my opinion, both of these approaches are
