@@ -13,12 +13,6 @@
 			"role": "Creator/Developer"
 		}
 	],
-	"require": {
-		"bash": ">=4.0.0",
-		"libxml": ">=20901",
-		"libxslt": ">=10128",
-		"libexslt": ">=817"
-	},
     "config": {
         "bin-dir": "bin/"
     },
