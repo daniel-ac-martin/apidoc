@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="apidoc-config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="source" type="sourceType" />
+				<xs:element name="transformations" type="transformationsType" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- ################################################################### -->
+	
+	<xs:complexType name="fileType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" />
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:simpleType name="filterType">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="sourceDirectoryType">
+		<xs:simpleContent>
+			<xs:extension base="fileType">
+				<xs:attribute name="filter" type="filterType" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="sourceType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="file" type="fileType" />
+			<xs:element name="directory" type="sourceDirectoryType" />
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:simpleType name="templateType">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="transformationsType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="transform" type="transformType" />
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="transformType">
+		<xs:simpleContent>
+			<xs:extension base="fileType">
+				<xs:attribute name="template" type="templateType" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

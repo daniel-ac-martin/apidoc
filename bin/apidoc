@@ -1,0 +1,127 @@
+#! /bin/bash
+
+VERSION=0.1
+
+echo "APIDoc ${VERSION}: A system for creating API reference documentation"
+echo
+
+# 0. apidoc variables:
+EXEC_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+EXEC_DIR="${EXEC_DIR}/../src/apidoc"
+SCHEMA="${EXEC_DIR}/../schema/apidoc-config.xsd"
+
+READY=""
+NO_CONFIG_FILE=""
+
+CONFIG_CANDIDATES=( "apidoc.xml" "apidoc.xml.dist" "apidoc.dist.xml" )
+TEMPLATE=""
+DIR=""
+FILTER="*.xml"
+OUTPUT=""
+
+# 1. See if we have explicit arguments (getopts)
+
+show_help() {
+cat << EOF
+Usage: ${0##*/} [-h] [-i INPUT_DIR] [-f FILTER] [-t TEMPLATE] [-o OUTPUT_DIR]
+Do stuff with FILE and write the result to standard output. With no FILE
+or when FILE is -, read standard input.
+
+    -h             display this help and exit
+    -c FILE        use FILE as XML configuration file, default: ${CONFIG_CANDIDATES}
+    -i INPUT_DIR   read source files from INPUT_DIR, eg: src-doc
+    -f FILTER      apply filter to INPUT_DIR, default: ${FILTER}
+    -t TEMPLATE    transform source files with TEMPLATE, eg: phpnet
+    -o OUTPUT_DIR  write output into the directory OUTPUT, eg: build/doc
+EOF
+}
+
+# A POSIX variable - Reset in case getopts has been used previously in the shell.
+OPTIND=1
+
+# Process arguments
+while getopts "h?c:t:i:f:o:" opt; do
+	case "$opt" in
+	h|\?)
+		show_help
+		exit 0
+		;;
+	c)
+		CONFIG_CANDIDATES=( "${OPTARG}" )
+		;;
+	t)
+		TEMPLATE="${OPTARG}"
+		NO_CONFIG_FILE="Yes"
+		;;
+	i)
+		DIR="${OPTARG}"
+		NO_CONFIG_FILE="Yes"
+		;;
+	f)
+		FILTER="${OPTARG}"
+		NO_CONFIG_FILE="Yes"
+		;;
+	o)
+		OUTPUT="${OPTARG}"
+		NO_CONFIG_FILE="Yes"
+		;;
+	esac
+done
+
+shift $((OPTIND-1))
+
+[ "${1}" = "--" ] && shift
+
+if [ -z "${NO_CONFIG_FILE}" ]; then
+	# 2. Otherwise look for XML config file
+	for ci in ${!CONFIG_CANDIDATES[*]}; do
+		file="${CONFIG_CANDIDATES[$ci]}"
+	
+		if [ -f "${file}" ]; then
+			echo "Using config file: ${file}"
+		
+			# 2.1 Check for validity
+			xmllint --schema "${SCHEMA}" --noout "${file}" || exit 1
+		
+			# 2.2 Extract arguments
+			TEMPLATE=`xmllint --xpath "string(/apidoc-config/transformations/transform/@template)" --noout "${file}"`
+			DIR=`xmllint      --xpath "string(/apidoc-config/source/directory)"                    --noout "${file}"`
+			FILTER=`xmllint   --xpath "string(/apidoc-config/source/directory/@filter)"            --noout "${file}"`
+			OUTPUT=`xmllint   --xpath "string(/apidoc-config/transformations/transform)"           --noout "${file}"`
+		
+			READY="Yes"
+		fi
+	done
+elif [ -n "${TEMPLATE}" ] && [ -n "${DIR}" ] && [ -n "${FILTER}" ] && [ -n "${OUTPUT}" ]; then
+	READY="Yes"
+else
+	echo "Error: Insufficient arguments supplied:
+	input:    ${DIR} [${FILTER}]
+	template: ${TEMPLATE}
+	output:   ${OUTPUT}"
+	exit 2
+fi
+
+if [ -z "${READY}" ]; then
+	echo "Error: Unable to find config file \"${CONFIG_CANDIDATES}\"."
+	exit 3
+fi
+
+if [ ! -d "${DIR}" ]; then
+	echo "Error: \"${DIR}\" is not a directory."
+	exit 4
+fi
+
+if [ ! -f "${EXEC_DIR}/../templates/${TEMPLATE}.xsl" ]; then
+	echo "Error: \"${TEMPLATE}\" is not a valid template."
+	exit 5
+fi
+
+echo "About to build with the following config:
+	input:    ${DIR} [${FILTER}]
+	template: ${TEMPLATE}
+	output:   ${OUTPUT}"
+
+# 3 Call build.sh with arguments
+"${EXEC_DIR}/build.sh" "${TEMPLATE}" "${DIR}" "${FILTER}" "${OUTPUT}"
+
