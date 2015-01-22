@@ -36,15 +36,9 @@
 			<xs:element name="parameter" type="parameterType" minOccurs="0" maxOccurs="unbounded" />
 			<xs:element name="return" type="anonymousVariableType" minOccurs="0" />
 			<xs:element name="throws" type="anonymousVariableType" minOccurs="0" maxOccurs="unbounded" />
-			<xs:choice>
-				<xs:sequence>
-					<xs:element name="example" type="exampleType" minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="see" type="seeType" minOccurs="0" maxOccurs="unbounded" />
-				</xs:sequence>
-				<xs:sequence>
-					<xs:element name="see" type="seeType" minOccurs="0" maxOccurs="unbounded" />
-					<xs:element name="example" type="exampleType" minOccurs="0" maxOccurs="unbounded" />
-				</xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="example" type="exampleType" />
+				<xs:element name="see" type="seeType" />
 			</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="static" type="booleanType" />
