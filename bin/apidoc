@@ -7,8 +7,13 @@ echo
 
 # 0. apidoc variables:
 EXEC_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-EXEC_DIR="${EXEC_DIR}/../src/apidoc"
-SCHEMA="${EXEC_DIR}/../schema/apidoc-config.xsd"
+SRC_DIR="${EXEC_DIR}/../src"
+
+if [ ! -d "${SRC_DIR}" ]; then
+	SRC_DIR="${EXEC_DIR}/../daniel-ac-martin/apidoc/src" # Composer installation
+fi
+
+SCHEMA="${SRC_DIR}/schema/apidoc-config.xsd"
 
 READY=""
 NO_CONFIG_FILE=""
@@ -112,7 +117,7 @@ if [ ! -d "${DIR}" ]; then
 	exit 4
 fi
 
-if [ ! -f "${EXEC_DIR}/../templates/${TEMPLATE}.xsl" ]; then
+if [ ! -f "${SRC_DIR}/templates/${TEMPLATE}.xsl" ]; then
 	echo "Error: \"${TEMPLATE}\" is not a valid template."
 	exit 5
 fi
@@ -123,5 +128,5 @@ echo "About to build with the following config:
 	output:   ${OUTPUT}"
 
 # 3 Call build.sh with arguments
-"${EXEC_DIR}/build.sh" "${TEMPLATE}" "${DIR}" "${FILTER}" "${OUTPUT}"
+"${SRC_DIR}/apidoc/build.sh" "${TEMPLATE}" "${DIR}" "${FILTER}" "${OUTPUT}"
 
