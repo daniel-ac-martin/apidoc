@@ -395,7 +395,7 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template name="build-constants-synopsis">
+	<xsl:template name="build-constant-synopsis">
 		<xsl:variable name="name" select="name" />
 		<xsl:variable name="class" select="class" />
 		<xsl:variable name="namespace" select="namespace" />
