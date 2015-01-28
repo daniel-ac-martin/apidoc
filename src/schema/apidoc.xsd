@@ -142,8 +142,8 @@
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="extends" type="inheritanceType" />
 			</xs:choice>
-			<xs:element name="title" type="titleType" />
-			<xs:element name="description" type="descriptionType" minOccurs="0" />
+			<xs:element name="title" type="titleType" minOccurs="0" />
+			<xs:element name="description" type="descriptionType" />
 			<xs:element name="see" type="seeType" minOccurs="0" maxOccurs="unbounded" />
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="constructor">
