@@ -4,7 +4,7 @@
 	"description": "A system for creating API reference documentation.",
 	"keywords": ["apidoc", "api-doc", "API", "documentation", "doc", "docs", "generator"],
 	"homepage": "https://github.com/daniel-ac-martin/apidoc",
-	"license": "MIT",
+	"license": "GNU GPL",
 	"authors": [
 		{
 			"name": "Daniel A.C. Martin",
