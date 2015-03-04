@@ -141,6 +141,6 @@ project's main documentation.
 
 ## License
 
-Copyright (C) 2014 Daniel A.C. Martin
+Copyright (C) 2015 Daniel A.C. Martin
 
 Distributed under the GNU General Public License v3 or any later version.
