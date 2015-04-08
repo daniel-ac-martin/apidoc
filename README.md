@@ -1,13 +1,15 @@
-# apidoc
+apidoc
+======
 
 A system for generating API reference documentation from a collection of XML
 files.
 
-## Rationale
+Rationale
+---------
 
-API documentation matters. The quality of a software library's documentation has a
-great effect on the speed at which a prospective programmer can start using it,
-and that speed greatly affects whether the library will be used at all.
+API documentation matters. The quality of a software library's documentation has
+a great effect on the speed at which a prospective programmer can start using
+it, and that speed greatly affects whether the library will be used at all.
 
 At present there are two main approaches to producing API documentation. The
 first is to simply write it manually as you would the rest of your project's
@@ -32,11 +34,11 @@ become outdated.
 Intermingling API documentation with source code generally causes at least one
 of the following problems:
 
-	1. The source code becomes much harder to read as considerable screen space
-	   is given over to the documentation comments.
-	2. The API is insufficiently documented as the programmer attempts minimise
-	   the pollution of his source code. i.e. In-line documentation is an excuse
-	   for hardly documenting at all.
+1. The source code becomes much harder to read as considerable screen space is
+   given over to the documentation comments.
+2. The API is insufficiently documented as the programmer attempts minimise the
+   pollution of his source code. i.e. In-line documentation is an excuse for
+   hardly documenting at all.
 
 Additionally, in-line documentation can encourage a lack of proper traditional
 commenting of source code. - Comments that are useful to the programmer working
@@ -61,17 +63,17 @@ e.g.
 
 This approach has the following advantages:
 
-	1. The API documentation can use its own strictly defined syntax ensuring
-	   that the specification is valid.
-	2. Source code syntax and documentation syntax are no longer mixed in the
-	   same files. Source code can be beautiful and concise again with comments 
-	   that are actually helpful.
-	3. Conformance with the documentation can be tested for in the unit tests.
-	   (Most general purpose programming languages have libraries for reading
-	   XML files.) This makes it far easier to ensure that the documentation is
-	   correct.
+1. The API documentation can use its own strictly defined syntax ensuring that
+   the specification is valid.
+2. Source code syntax and documentation syntax are no longer mixed in the same
+   files. Source code can be beautiful and concise again with comments that are
+   actually helpful.
+3. Conformance with the documentation can be tested for in the unit tests. (Most
+   general purpose programming languages have libraries for reading XML files.)
+   This makes it far easier to ensure that the documentation is correct.
 
-## The initial implementation
+The initial implementation
+--------------------------
 
 This project is the initial implementation of the idea. I am using it to
 document a library I have written in PHP. (Though the system should work just as
@@ -83,36 +85,44 @@ and Cygwin environments.
 
 The main requirements are:
 
-	1. GNU Bash
-	2. xmllint (libxml)
-	3. xsltproc (libxml)
+1. GNU Bash
+2. xmllint (libxml)
+3. xsltproc (libxml)
 
 It compiles the source documentation to another documentation format so that it
 can be incorporated into the project's main documentation. At the time of
 writing the only format supported is the Docbook format used by PhD (which is
 what is used to generate php.net).
 
-## Installation
+Installation
+------------
 
 Besides checking out the code through git. It is possible to install it through
 composer by adding the following to your projects composer.json file:
 
+```json
+[...]
+"require": {
 	[...]
-	"require": {
-		[...]
-		"daniel-ac-martin/apidoc": "0.1"
-	},
-	[...]
+	"daniel-ac-martin/apidoc": ">=0.1.2"
+},
+[...]
+```
 
 Then running the following command from your project's root directory:
 
-	php composer.phar install
+```shell
+php composer.phar install
+```
 
 apidoc can then be run by typing:
 
-	vendor/bin/apidoc
+```shell
+vendor/bin/apidoc
+```
 
-## Usage
+Usage
+-----
 
 The main script file, apidoc, is a bash script. Full usage information is
 available by executing "apidoc -h".
@@ -122,15 +132,17 @@ your project from which apidoc takes it's information. (Alternatively the
 program can be called with the information provided through the programs
 arguments.) Here is an example of the configuration file:
 
-	<?xml version="1.0" encoding="UTF-8"?>
-	<apidoc-config>
-		<source>
-			<directory filter="*.xml">src-doc</directory>
-		</source>
-		<transformations>
-			<transform template="phpnet">build/doc</transform>
-		</transformations>
-	</apidoc-config>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<apidoc-config>
+	<source>
+		<directory filter="*.xml">src-doc</directory>
+	</source>
+	<transformations>
+		<transform template="phpnet">build/doc</transform>
+	</transformations>
+</apidoc-config>
+```
 
 This will look for source files in the src-doc/ directory that end with ".xml".
 It will then collate them and then transform them using the template called
@@ -139,7 +151,8 @@ It will then collate them and then transform them using the template called
 directory. The user can then insert the resulting API documentation into their
 project's main documentation.
 
-## License
+License
+-------
 
 Copyright (C) 2015 Daniel A.C. Martin
 
