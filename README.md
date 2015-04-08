@@ -98,21 +98,11 @@ Installation
 ------------
 
 Besides checking out the code through git. It is possible to install it through
-composer by adding the following to your projects composer.json file:
-
-```json
-[...]
-"require": {
-	[...]
-	"daniel-ac-martin/apidoc": ">=0.1.2"
-},
-[...]
-```
-
-Then running the following command from your project's root directory:
+composer by running the following commands from your project's main directory:
 
 ```shell
-php composer.phar install
+php ./path/to/composer.phar require daniel-ac-martin/apidoc
+php ./path/to/composer.phar install
 ```
 
 apidoc can then be run by typing:
