@@ -26,6 +26,18 @@ XINCLUDE=`cat <<EOF
 
 EOF`
 
+urlencode() {
+    # urlencode <string>
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            *) printf '%%%02X' "'$c"
+        esac
+    done
+}
+
 for file in `find "${DIR}" -name "${FILTER}" -type f`
 do
 	file=`realpath "${file}"`
@@ -34,6 +46,7 @@ do
 	xmllint --schema "${SCHEMA}" --noout "${file}" || exit 1
 	
 	# Add to list of xincludes
+	file=`urlencode "${file}"`
 	XINCLUDE=`echo -e "${XINCLUDE}\n\t<xi:include href=\"${file}\" parse=\"xml\" xpointer=\"xpointer(/apidoc/*)\" />"`
 done
 
