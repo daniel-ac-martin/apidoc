@@ -126,7 +126,7 @@
 		<xsl:otherwise>method</xsl:otherwise>
 	</xsl:choose></xsl:variable>
 	
-	<xsl:output indent="yes" cdata-section-elements="programlisting" />
+	<xsl:output indent="yes" cdata-section-elements="programlisting screen" />
 	<xsl:strip-space elements="*" />
 	<xsl:template match="/">
 		<docbook-phd-phpnet>
@@ -932,7 +932,7 @@
 							</programlisting>
 							<para><xsl:value-of select="$example.outputs" /></para>
 							<screen>
-								<xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text><xsl:value-of select="gives" disable-output-escaping="yes" /><xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+								<xsl:value-of select="gives" disable-output-escaping="yes" />
 							</screen>
 						</example>
 					</xsl:for-each>
