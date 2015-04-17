@@ -723,6 +723,17 @@
 						</xsl:if>
 					</classsynopsis>
 				</section>
+				<xsl:if test="example">
+					<section>
+						<xsl:attribute name="xml:id"><xsl:value-of select="$class-id-segment" />.examples</xsl:attribute>
+						<title><xsl:value-of select="$reftitle.examples" /></title>
+						<para>
+							<xsl:for-each select="example">
+								<xsl:call-template name="example" />
+							</xsl:for-each>
+						</para>
+					</section>
+				</xsl:if>
 				<xsl:if test="property[@constant='yes']">
 					<section>
 						<xsl:attribute name="xml:id"><xsl:value-of select="$class-id-segment" />.constants</xsl:attribute>
@@ -930,18 +941,11 @@
 			<xsl:if test="example">
 				<refsect1 role="examples">
 					<title><xsl:value-of select="$reftitle.examples" /></title>
-					<xsl:for-each select="example">
-						<example>
-							<title><xsl:value-of select="title" /></title>
-							<programlisting role="php">
-								<xsl:value-of select="code" disable-output-escaping="yes" />
-							</programlisting>
-							<para><xsl:value-of select="$example.outputs" /></para>
-							<screen>
-								<xsl:value-of select="gives" disable-output-escaping="yes" />
-							</screen>
-						</example>
-					</xsl:for-each>
+					<para>
+						<xsl:for-each select="example">
+							<xsl:call-template name="example" />
+						</xsl:for-each>
+					</para>
 				</refsect1>
 			</xsl:if>
 			<xsl:call-template name="seealso">
@@ -1189,6 +1193,19 @@
 				<para><xsl:value-of select="." /></para>
 			</listitem>
 		</varlistentry>
+	</xsl:template>
+	
+	<xsl:template name="example">
+		<example>
+			<title><xsl:value-of select="title" /></title>
+			<programlisting role="php">
+				<xsl:value-of select="code" disable-output-escaping="yes" />
+			</programlisting>
+			<para><xsl:value-of select="$example.outputs" /></para>
+			<screen>
+				<xsl:value-of select="gives" disable-output-escaping="yes" />
+			</screen>
+		</example>
 	</xsl:template>
 	
 	<xsl:template name="description">

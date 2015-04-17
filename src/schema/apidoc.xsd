@@ -62,7 +62,10 @@
 			</xs:choice>
 			<xs:element name="title" type="titleType" minOccurs="0" />
 			<xs:element name="description" type="descriptionType" />
-			<xs:element name="see" type="seeType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="example" type="exampleType" />
+				<xs:element name="see" type="seeType" />
+			</xs:choice>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element name="property">
 					<xs:complexType>
