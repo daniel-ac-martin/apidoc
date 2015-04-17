@@ -660,7 +660,10 @@
 					<xsl:attribute name="xml:id"><xsl:value-of select="$class-id-segment" />.intro</xsl:attribute>
 					<title><xsl:value-of select="$reftitle.intro" /></title>
 					<para>
-						<xsl:value-of select="description" />
+						<xsl:call-template name="description">
+							<xsl:with-param name="description" select="description" />
+							<xsl:with-param name="namespace" select="$namespace" />
+						</xsl:call-template>
 					</para>
 				</section>
 				<section>
@@ -861,7 +864,10 @@
 					<xsl:with-param name="special" select="$special" />
 				</xsl:call-template>
 				<para>
-					<xsl:value-of select="description" />
+					<xsl:call-template name="description">
+						<xsl:with-param name="description" select="description" />
+						<xsl:with-param name="namespace" select="$namespace" />
+					</xsl:call-template>
 				</para>
 			</refsect1>
 			<refsect1 role="parameters">
@@ -875,7 +881,10 @@
 										<term><parameter><xsl:value-of select="@name" /></parameter></term>
 										<listitem>
 											<para>
-												<xsl:value-of select="." />
+												<xsl:call-template name="description">
+													<xsl:with-param name="description" select="." />
+													<xsl:with-param name="namespace" select="$namespace" />
+												</xsl:call-template>
 											</para>
 										</listitem>
 									</varlistentry>
@@ -893,7 +902,10 @@
 				<para>
 					<xsl:choose>
 						<xsl:when test="return">
-							<xsl:value-of select="return" />
+							<xsl:call-template name="description">
+								<xsl:with-param name="description" select="return" />
+								<xsl:with-param name="namespace" select="$namespace" />
+							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="$return.void" />
@@ -906,17 +918,11 @@
 					<title><xsl:value-of select="$reftitle.errors" /></title>
 					<xsl:for-each select="throws">
 						<para>
-							<!--
-							We can give multiple scenarios when the exception
-							will be thrown but is it worth messing up the syntax
-							in order to support it?
-							-->
-							Throws <classname><xsl:call-template name="parse-name"><xsl:with-param name="name" select="@type" /><xsl:with-param name="current-namespace" select="$namespace" /></xsl:call-template></classname> when:
-							<itemizedlist>
-								<simpara>
-									<xsl:value-of select="." />
-								</simpara>
-							</itemizedlist>
+							Throws <classname><xsl:call-template name="parse-name"><xsl:with-param name="name" select="@type" /><xsl:with-param name="current-namespace" select="$namespace" /></xsl:call-template></classname> when
+							<xsl:call-template name="description">
+								<xsl:with-param name="description" select="." />
+								<xsl:with-param name="namespace" select="$namespace" />
+							</xsl:call-template>
 						</para>
 					</xsl:for-each>
 				</refsect1>
@@ -1097,7 +1103,7 @@
 			<xsl:when test="parameter">
 				<xsl:for-each select="parameter">
 					<methodparam>
-						<xsl:if test="@optional='yes'">
+						<xsl:if test="@optional='yes' or @value">
 							<xsl:attribute name="choice">opt</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="type">
@@ -1185,6 +1191,109 @@
 		</varlistentry>
 	</xsl:template>
 	
+	<xsl:template name="description">
+		<xsl:param name="description" />
+		<xsl:param name="namespace" />
+		<xsl:for-each select="$description">
+			<xsl:apply-templates mode="description">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template mode="description" match="class">
+		<xsl:param name="namespace" />
+		<classname>
+			<xsl:call-template name="parse-name">
+				<xsl:with-param name="name" select="." />
+				<xsl:with-param name="current-namespace" select="$namespace" />
+			</xsl:call-template>
+		</classname>
+	</xsl:template>
+	<xsl:template mode="description" match="constant">
+		<xsl:param name="namespace" />
+		<constant>
+			<xsl:call-template name="parse-name">
+				<xsl:with-param name="name" select="." />
+				<xsl:with-param name="current-namespace" select="$namespace" />
+			</xsl:call-template>
+		</constant>
+	</xsl:template>
+	<xsl:template mode="description" match="function">
+		<xsl:param name="namespace" />
+		<function>
+			<xsl:call-template name="parse-name">
+				<xsl:with-param name="name" select="." />
+				<xsl:with-param name="current-namespace" select="$namespace" />
+			</xsl:call-template>
+		</function>
+	</xsl:template>
+	<xsl:template mode="list" match="li">
+		<xsl:param name="namespace" />
+		<listitem>
+			<xsl:apply-templates mode="description">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</listitem>
+	</xsl:template>
+	<xsl:template mode="description" match="literal">
+		<xsl:param name="namespace" />
+		<literal><xsl:value-of select="." /></literal>
+	</xsl:template>
+	<xsl:template mode="description" match="method">
+		<xsl:param name="namespace" />
+		<methodname>
+			<xsl:call-template name="parse-name">
+				<xsl:with-param name="name" select="." />
+				<xsl:with-param name="current-namespace" select="$namespace" />
+			</xsl:call-template>
+		</methodname>
+	</xsl:template>
+	<xsl:template mode="description" match="note">
+		<xsl:param name="namespace" />
+		<note>
+			<xsl:apply-templates mode="description">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</note>
+	</xsl:template>
+	<xsl:template mode="description" match="ol">
+		<xsl:param name="namespace" />
+		<orderedlist>
+			<xsl:apply-templates mode="list">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</orderedlist>
+	</xsl:template>
+	<xsl:template mode="description" match="p">
+		<xsl:param name="namespace" />
+		<simpara>
+			<xsl:apply-templates mode="description">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</simpara>
+	</xsl:template>
+	<xsl:template mode="description" match="parameter">
+		<xsl:param name="namespace" />
+		<parameter><xsl:value-of select="." /></parameter>
+	</xsl:template>
+	<xsl:template mode="description" match="ul">
+		<xsl:param name="namespace" />
+		<itemizedlist>
+			<xsl:apply-templates mode="list">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</itemizedlist>
+	</xsl:template>
+	<xsl:template mode="description" match="warning">
+		<xsl:param name="namespace" />
+		<warning>
+			<xsl:apply-templates mode="description">
+				<xsl:with-param name="namespace" select="$namespace" />
+			</xsl:apply-templates>
+		</warning>
+	</xsl:template>
+
 	<xsl:template name="type">
 		<xsl:param name="type" />
 		<xsl:param name="current-namespace" select="''" />

@@ -46,12 +46,12 @@
 	</xs:complexType>
 	
 	<xs:complexType name="anonymousVariableType">
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
+		<xs:complexContent>
+			<xs:extension base="simpleTextType">
 				<xs:attribute name="type" type="xs:string" />
 				<xs:attribute name="constant" type="xs:string" />
 			</xs:extension>
-		</xs:simpleContent>
+		</xs:complexContent>
 	</xs:complexType>
 	
 	<xs:complexType name="classType">
@@ -109,10 +109,18 @@
 		<xs:attribute name="version" type="versionType" />
 	</xs:complexType>
 	
-	<xs:complexType name="descriptionType">
-		<xs:simpleContent>
-			<xs:extension base="xs:string" />
-		</xs:simpleContent>
+	<xs:complexType name="descriptionType" mixed="true">
+		<xs:complexContent>
+			<xs:extension base="simpleTextType">
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="note" type="descriptionType" />
+					<xs:element name="ol" type="listType" />
+					<xs:element name="p" type="simpleTextType" />
+					<xs:element name="ul" type="listType" />
+					<xs:element name="warning" type="descriptionType" />
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
 	</xs:complexType>
 	
 	<xs:complexType name="exampleType">
@@ -190,6 +198,12 @@
 		</xs:simpleContent>
 	</xs:complexType>
 	
+	<xs:complexType name="listType">
+		<xs:sequence>
+			<xs:element name="li" type="descriptionType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
 	<xs:attributeGroup name="memberAttributeGroup">
 		<xs:attribute name="access" type="accessType" use="required" />
 	</xs:attributeGroup>
@@ -213,21 +227,40 @@
 	<xs:complexType name="parameterType">
 		<xs:complexContent>
 			<xs:extension base="variableType">
+				<xs:attribute name="value" type="xs:string" />
 				<xs:attribute name="optional" type="booleanType" />
+				<!-- Unfortunately this is not supported by xmllint. -->
+				<!-- <xsd:assert test="not(@value and @optional)"/> -->
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	
+	<xs:simpleType name="referenceType">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+	
 	<xs:complexType name="seeType">
 		<xs:sequence>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="class" type="xs:string" />
-				<xs:element name="function" type="xs:string" />
+				<xs:element name="class" type="referenceType" />
+				<xs:element name="function" type="referenceType" />
 				<xs:element name="link" type="linkType" />
-				<xs:element name="method" type="xs:string" />
+				<xs:element name="method" type="referenceType" />
 			</xs:choice>
 			<xs:element name="description" type="titleType" minOccurs="0" />
 		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="simpleTextType" mixed="true">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="class" type="referenceType" />
+			<xs:element name="constant" type="referenceType" />
+			<xs:element name="function" type="referenceType" />
+			<xs:element name="literal" type="referenceType" />
+			<xs:element name="method" type="referenceType" />
+			<xs:element name="parameter" type="referenceType" />
+		</xs:choice>
 	</xs:complexType>
 	
 	<xs:complexType name="titleType">
