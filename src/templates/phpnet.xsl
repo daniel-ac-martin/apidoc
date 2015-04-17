@@ -1302,6 +1302,10 @@
 			</xsl:apply-templates>
 		</itemizedlist>
 	</xsl:template>
+	<xsl:template mode="description" match="type">
+		<xsl:param name="namespace" />
+		<type><xsl:value-of select="." /></type>
+	</xsl:template>
 	<xsl:template mode="description" match="warning">
 		<xsl:param name="namespace" />
 		<warning>

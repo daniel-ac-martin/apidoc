@@ -263,6 +263,7 @@
 			<xs:element name="literal" type="referenceType" />
 			<xs:element name="method" type="referenceType" />
 			<xs:element name="parameter" type="referenceType" />
+			<xs:element name="type" type="referenceType" />
 		</xs:choice>
 	</xs:complexType>
 	
