@@ -230,7 +230,6 @@
 	<xs:complexType name="parameterType">
 		<xs:complexContent>
 			<xs:extension base="variableType">
-				<xs:attribute name="value" type="xs:string" />
 				<xs:attribute name="optional" type="booleanType" />
 				<!-- Unfortunately this is not supported by xmllint. -->
 				<!-- <xsd:assert test="not(@value and @optional)"/> -->
@@ -278,6 +277,7 @@
 			<xs:extension base="anonymousVariableType">
 				<xs:attribute name="name" type="xs:string" use="required" />
 				<xs:attribute name="static" type="booleanType" />
+				<xs:attribute name="value" type="xs:string" />
 				<xs:attribute name="version" type="versionType" />
 			</xs:extension>
 		</xs:complexContent>
