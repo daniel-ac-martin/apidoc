@@ -750,6 +750,7 @@
 											<xsl:with-param name="name" select="@name" />
 										</xsl:call-template>
 									</xsl:with-param>
+									<xsl:with-param name="namespace" select="$namespace" />
 								</xsl:call-template>
 							</xsl:for-each>
 						</variablelist>
@@ -771,6 +772,7 @@
 											<xsl:with-param name="name" select="@name" />
 										</xsl:call-template>
 									</xsl:with-param>
+									<xsl:with-param name="namespace" select="$namespace" />
 								</xsl:call-template>
 							</xsl:for-each>
 						</variablelist>
@@ -990,6 +992,7 @@
 					<xsl:call-template name="variable-sub-listentry">
 						<xsl:with-param name="class-name" select="''" />
 						<xsl:with-param name="id" select="''" />
+						<xsl:with-param name="namespace" select="$namespace" />
 					</xsl:call-template>
 				</variablelist>
 			</refsect1>
@@ -1172,6 +1175,7 @@
 	<xsl:template name="variable-sub-listentry">
 		<xsl:param name="class-name" />
 		<xsl:param name="id" />
+		<xsl:param name="namespace" select="''" />
 		<xsl:variable name="maybe-class-name">
 			<xsl:if test="$class-name != ''"><xsl:value-of select="$class-name" /><xsl:value-of select="$namespace-delimiter" /></xsl:if>
 		</xsl:variable>
@@ -1190,7 +1194,12 @@
 				</xsl:choose>
 			</term>
 			<listitem>
-				<para><xsl:value-of select="." /></para>
+				<para>
+					<xsl:call-template name="description">
+						<xsl:with-param name="description" select="." />
+						<xsl:with-param name="namespace" select="$namespace" />
+					</xsl:call-template>
+				</para>
 			</listitem>
 		</varlistentry>
 	</xsl:template>
