@@ -1269,9 +1269,11 @@
 	<xsl:template mode="description" match="note">
 		<xsl:param name="namespace" />
 		<note>
-			<xsl:apply-templates mode="description">
-				<xsl:with-param name="namespace" select="$namespace" />
-			</xsl:apply-templates>
+			<para>
+				<xsl:apply-templates mode="description">
+					<xsl:with-param name="namespace" select="$namespace" />
+				</xsl:apply-templates>
+			</para>
 		</note>
 	</xsl:template>
 	<xsl:template mode="description" match="ol">
@@ -1309,9 +1311,11 @@
 	<xsl:template mode="description" match="warning">
 		<xsl:param name="namespace" />
 		<warning>
-			<xsl:apply-templates mode="description">
-				<xsl:with-param name="namespace" select="$namespace" />
-			</xsl:apply-templates>
+			<para>
+				<xsl:apply-templates mode="description">
+					<xsl:with-param name="namespace" select="$namespace" />
+				</xsl:apply-templates>
+			</para>
 		</warning>
 	</xsl:template>
 
